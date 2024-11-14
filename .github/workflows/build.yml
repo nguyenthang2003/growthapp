@@ -1,0 +1,52 @@
+name: Build Growth Chart App
+
+on: [push]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - run: pip install pyinstaller pandas matplotlib openpyxl
+      - run: pyinstaller --onefile --windowed app.py
+      - name: Upload Windows Executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: app_windows
+          path: dist/app.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - run: pip install pyinstaller pandas matplotlib openpyxl
+      - run: pyinstaller --onefile --windowed app.py
+      - name: Upload macOS Executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: app_macos
+          path: dist/app
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - run: pip install pyinstaller pandas matplotlib openpyxl
+      - run: pyinstaller --onefile --windowed app.py
+      - name: Upload Linux Executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: app_linux
+          path: dist/app
